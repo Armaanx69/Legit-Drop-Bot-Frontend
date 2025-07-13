@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GenBot Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: #121212;
+      color: white;
+    }
+    textarea {
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">🎮 GenBot Admin Panel</h2>
+
+    <form id="uploadForm" class="bg-dark p-4 rounded shadow">
+      <div class="mb-3">
+        <label class="form-label">Secret Key</label>
+        <input type="password" class="form-control" id="key" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Service Name</label>
+        <input type="text" class="form-control" id="service" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Accounts (one per line)</label>
+        <textarea class="form-control" id="accounts" rows="8" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Upload Stock</button>
+    </form>
+
+    <div id="response" class="text-center mt-4"></div>
+  </div>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const key = document.getElementById("key").value;
+      const service = document.getElementById("service").value;
+      const accounts = document.getElementById("accounts").value;
+
+      const response = await fetch("https://your-replit-name.username.repl.co/restock", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ key, service, accounts })
+      });
+
+      const result = await response.text();
+      document.getElementById("response").innerText = result;
+    });
+  </script>
+</body>
+</html>
